@@ -1,26 +1,43 @@
 from character import Character
 
+
+def any_alive(enemy):
+    for e in enemy:
+        if e.is_alive():
+            return True
+    return False
+
+
 def main():
     hero = Character("Knight", 30, 5)
-    enemy = Character("Goblin", 20, 3)
+    enemy = [Character("Goblin", 20, 3), Character("Ant", 50, 4)]
 
     print(hero)
-    print(enemy)
+    for i in enemy:
+        print(i)
     print()
 
-    while hero.is_alive() and enemy.is_alive():
-        hero.attack(enemy)
-        if enemy.is_alive():
-            enemy.attack(hero)
+    while hero.is_alive() and any_alive(enemy):
+        for i in enemy:
+            if i.is_alive():
+                hero.attack(i)
+                break
+
+        for o in enemy:
+            if o.is_alive() and hero.is_alive():
+                o.attack(hero)
+
         print(hero)
-        print(enemy)
+        for i in enemy:
+            print(i)
         print()
 
     print("Battle over!")
     if hero.is_alive():
         print(f"{hero.name} wins!")
     else:
-        print(f"{enemy.name} wins!")
+        print("The enemies win!")
+
 
 if __name__ == "__main__":
     main()
